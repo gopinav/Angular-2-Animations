@@ -13,6 +13,9 @@ import {
              <button (click)="toggleDisplay()">ToggleDisplay</button>
              <div class="box" [@light]="state" [@display]="displayState" >
              </div>
+             <div [@flyInOut] >
+              Enter/Exit
+             </div>
   
   
   `,
@@ -24,8 +27,8 @@ import {
       state('on',   style({
         backgroundColor: '#eee'
       })),
-      transition('off => on', animate('2000ms ease-in', style({transform: 'rotate(90deg)'}))),
-      transition('on => off', animate('2000ms ease-in', style({transform: 'rotate(90deg)'})))
+      transition('off => on', animate('2000ms 1s ease-in', style({transform: 'rotate(90deg)'}))),
+      transition('on => off', animate('2000ms 1s ease-out', style({transform: 'rotate(180deg)'})))
     ]),
     trigger('display', [
       state('hide', style({
@@ -36,12 +39,23 @@ import {
       })),
       transition('hide => show', animate('2000ms ease-in', style({ opacity: 0.5}))),
       transition('show => hide', animate('2000ms ease-in', style({transform: 'scale(0.5)', opacity: 0.5})))
+    ]),
+     trigger('flyInOut', [
+    state('in', style({transform: 'translateX(0)'})),
+    transition('void => *', [
+      style({transform: 'translateX(-100%)'}),
+      animate(2000)
+    ]),
+    transition('* => void', [
+      animate(2000, style({transform: 'translateX(100%)'}))
     ])
+  ])
   ]
 })
 export class AppComponent { 
   state: string = 'off';
   displayState: string = 'show';
+  
   toggleLights(){
     this.state = (this.state == "off") ? "on" : "off";
   }
