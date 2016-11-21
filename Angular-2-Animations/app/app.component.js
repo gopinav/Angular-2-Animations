@@ -13,17 +13,19 @@ var AppComponent = (function () {
     function AppComponent() {
         this.state = 'off';
         this.displayState = 'show';
+        this.showDiv = true;
     }
     AppComponent.prototype.toggleLights = function () {
         this.state = (this.state == "off") ? "on" : "off";
     };
     AppComponent.prototype.toggleDisplay = function () {
         this.displayState = (this.displayState == "hide") ? "show" : "hide";
+        this.showDiv = this.showDiv ? false : true;
     };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
-            template: "<h1>Angular Animations</h1>\n             <button (click)=\"toggleLights()\">ToggleLights</button>\n             <button (click)=\"toggleDisplay()\">ToggleDisplay</button>\n             <div class=\"box\" [@light]=\"state\" [@display]=\"displayState\" >\n             </div>\n             <div [@flyInOut] >\n              Enter/Exit\n             </div>\n  \n  \n  ",
+            template: "<h1>Angular Animations</h1>\n             <button (click)=\"toggleLights()\">ToggleLights</button>\n             <button (click)=\"toggleDisplay()\">ToggleDisplay</button>\n             <div class=\"box\" [@light]=\"state\" [@display]=\"displayState\" >\n             </div>\n             <div *ngIf=\"showDiv\" [@flyInOut] >\n              Enter/Exit hi\n             </div>\n  \n  \n  ",
             animations: [
                 core_1.trigger('light', [
                     core_1.state('off', core_1.style({
@@ -46,7 +48,6 @@ var AppComponent = (function () {
                     core_1.transition('show => hide', core_1.animate('2000ms ease-in', core_1.style({ transform: 'scale(0.5)', opacity: 0.5 })))
                 ]),
                 core_1.trigger('flyInOut', [
-                    core_1.state('in', core_1.style({ transform: 'translateX(0)' })),
                     core_1.transition('void => *', [
                         core_1.style({ transform: 'translateX(-100%)' }),
                         core_1.animate(2000)

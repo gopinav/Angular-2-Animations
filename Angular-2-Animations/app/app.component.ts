@@ -13,8 +13,8 @@ import {
              <button (click)="toggleDisplay()">ToggleDisplay</button>
              <div class="box" [@light]="state" [@display]="displayState" >
              </div>
-             <div [@flyInOut] >
-              Enter/Exit
+             <div *ngIf="showDiv" [@flyInOut] >
+              Enter/Exit hi
              </div>
   
   
@@ -41,7 +41,6 @@ import {
       transition('show => hide', animate('2000ms ease-in', style({transform: 'scale(0.5)', opacity: 0.5})))
     ]),
      trigger('flyInOut', [
-    state('in', style({transform: 'translateX(0)'})),
     transition('void => *', [
       style({transform: 'translateX(-100%)'}),
       animate(2000)
@@ -55,11 +54,13 @@ import {
 export class AppComponent { 
   state: string = 'off';
   displayState: string = 'show';
+  showDiv: boolean = true;
   
   toggleLights(){
     this.state = (this.state == "off") ? "on" : "off";
   }
   toggleDisplay(){
     this.displayState = (this.displayState == "hide") ? "show" : "hide";
+    this.showDiv = this.showDiv? false : true;
   }
 }
